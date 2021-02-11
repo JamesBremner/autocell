@@ -11,7 +11,6 @@ int main()
     int ch = 1;
     int w, h;
     std::cout << "Neighbours of cell at " << cw <<", " << ch
-        <<" index "<< A.cell(cw,ch)->ID()
         << " are ";
     for( auto c : A.neighbours( cw, ch ) ) {
         A.coords( w, h, c );

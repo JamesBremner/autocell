@@ -33,6 +33,20 @@ public:
     cAutomaton(
         int w, int h );
 
+    /** Configure behaviour at edges of grid
+        @param[in] f true for wrapping the edges around, default value
+        @param[in] f false for stopping the grid at the edges
+
+        A cell at the edge of the grid has no neighbour outside the grid
+        when wrapping is false
+        A cell at the edge of the grid has neighbours on the other side of the grid
+        when wraqpping is ture.
+    */
+    void wrap( bool f = true )
+    {
+        myfwrap = f;
+    }
+
     /** Pointer to cell
         @param[in] w zero-based width index
         @param[in] h zero-based height index
@@ -59,12 +73,18 @@ public:
         @param[in] cell
     */
     void coords(
-                int& w, int& h,
-                cell_t cell );
+        int& w, int& h,
+        cell_t cell );
 
 private:
     std::vector< cell_t > myCell;
     int myWidth;
     int myHeight;
+    bool myfwrap;   ///< true if edges wrap around
+
+    std::vector< cell_t > neighboursWrap(
+        int w, int h );
+    std::vector< cell_t > neighboursNoWrap(
+        int w, int h );
 };
 }
