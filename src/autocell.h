@@ -47,6 +47,11 @@ public:
         myfwrap = f;
     }
 
+    void ortho( bool f = true )
+    {
+        myfortho = f;
+    }
+
     /** Pointer to cell
         @param[in] w zero-based width index
         @param[in] h zero-based height index
@@ -81,6 +86,7 @@ private:
     int myWidth;
     int myHeight;
     bool myfwrap;   ///< true if edges wrap around
+    bool myfortho;  ///< true if only orthogonal neighbours
 
     std::vector< cell_t > neighboursWrap(
         int w, int h );

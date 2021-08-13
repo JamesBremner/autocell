@@ -15,6 +15,7 @@ cAutomaton::cAutomaton(
     : myWidth( w )
     , myHeight( h )
     , myfwrap( true )
+    , myfortho( true )
 {
     cCell::RestartID();
     for( int k = 0; k < myWidth*myHeight; k++ )
@@ -64,6 +65,23 @@ std::vector< cell_t > cAutomaton::neighboursWrap(
     if( nh < 0 )
         nh = myHeight-1;
     ret.push_back( cell( nw, nh ) );
+    if( ! myfortho )
+    {
+        nw = w-1;
+        nh = h-1;
+        if( nw == 0 )
+            nw = myWidth-1;
+        if( nh == 0 )
+            nh = myHeight-1;
+        ret.push_back( cell( nw, nh ) );
+        nw = w+1;
+        nh = h-1;
+        if( nw = myWidth-1 )
+            nw = 0;
+        if( nh == 0 )
+            nh = myHeight-1;
+        ret.push_back( cell( nw, nh ) );
+    }
     return ret;
 }
 

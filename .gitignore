@@ -31,3 +31,4 @@
 *.out
 *.app
 *.depend
+build/codeblocks/autocell.layout
