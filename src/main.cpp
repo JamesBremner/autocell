@@ -55,4 +55,16 @@ int main()
     cw = 2;
     ch = 2;
     neighbours(A, cw, ch);
+        std::cout << "diagonal no wrap\n";
+    A.wrap(false);
+    A.ortho(false);
+    cw = 0;
+    ch = 0;
+    neighbours(A, cw, ch);
+    cw = 1;
+    ch = 1;
+    neighbours(A, cw, ch);
+    cw = 2;
+    ch = 2;
+    neighbours(A, cw, ch);
 }
