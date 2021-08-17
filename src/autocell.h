@@ -1,5 +1,7 @@
 #include <vector>
 #include <memory>
+#include <set>
+
 namespace cell
 {
 
@@ -27,8 +29,8 @@ class cAutomaton
 {
 public:
     /** CTOR
-        @param[in] w width
-        @param[in] h height
+        @param[in] w width in cells
+        @param[in] h height in cells
     */
     cAutomaton(
         int w, int h );
@@ -40,13 +42,17 @@ public:
         A cell at the edge of the grid has no neighbour outside the grid
         when wrapping is false
         A cell at the edge of the grid has neighbours on the other side of the grid
-        when wraqpping is ture.
+        when wrapping is true.
     */
     void wrap( bool f = true )
     {
         myfwrap = f;
     }
 
+    /** Configure behaviour of neighbours
+     * @param[in] f false: consider 8 cells as neighbours, ortho and diagonal
+     * @param[in] f true: consider 4 cells as neighbours, jut orthogonal
+     */
     void ortho( bool f = true )
     {
         myfortho = f;
@@ -63,6 +69,31 @@ public:
     */
     cell_t cell(
         int w, int h );
+
+    /** choose a random cell
+     * @param[in] chosen a set of cell indices that should not be chosen
+     * @param[out] chosen input plus index of chosen cells
+     * @return shared pointer to chosen cell
+     * 
+     * Usage to choose 5 cells at random with no duplicates
+     * <pre>
+    cell::cAutomaton A(3, 3);
+    std::set<int> chosen;
+    while( chosen.size() < 5 )
+        A.random( chosen );
+    for( int i : chosen )
+        std::cout << i << " ";
+    std::cout << "\n";
+    </pre>
+    *
+    * Consider seeding the random number generator
+    <pre>
+     #include <time.h>
+     srand (time(NULL));
+    </pre>
+    */
+    cell_t random( 
+        std::set<int>& chosen );
 
     /** neighbours
         @param[in] w zero-based width index of cell

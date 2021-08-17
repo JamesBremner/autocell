@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <autocell.h>
 
 namespace cell
@@ -27,6 +28,16 @@ namespace cell
             throw std::runtime_error(
                 "cAutomaton cell out of bounds" + std::to_string(w) + " " + std::to_string(h));
         return myCell[myWidth * h + w];
+    }
+    cell_t cAutomaton::random(std::set<int>& forbidden)
+    {
+        int index;
+        do
+        {
+            index = rand() % (myWidth * myHeight);
+        } while (! forbidden.insert(index).second);
+
+        return myCell[ index ];
     }
     std::vector<cell_t> cAutomaton::neighbours(
         int w, int h)

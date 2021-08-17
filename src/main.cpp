@@ -67,4 +67,11 @@ int main()
     cw = 2;
     ch = 2;
     neighbours(A, cw, ch);
+
+    std::set<int> chosen;
+    while( chosen.size() < 5 )
+        A.random( chosen );
+    for( int i : chosen )
+        std::cout << i << " ";
+    std::cout << "\n";
 }
