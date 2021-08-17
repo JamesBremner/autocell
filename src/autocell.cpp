@@ -40,6 +40,19 @@ std::vector< cell_t > cAutomaton::neighbours(
     else
         return neighboursNoWrap( w, h );
 }
+void cAutomaton::wrap( int& w, int& h )
+{
+    //std::cout << "wrap " << w <<" "<< h;
+    if( w < 0 )
+        w = myWidth-1;
+    if( h < 0 )
+        h = myHeight-1;
+    if( w > myWidth-1 )
+        w = 0;
+    if( h > myHeight-1 )
+        h = 0;
+    //std::cout << " -> " << w <<" "<< h << "\n";
+}
 std::vector< cell_t > cAutomaton::neighboursWrap(
     int w, int h )
 {
@@ -69,17 +82,19 @@ std::vector< cell_t > cAutomaton::neighboursWrap(
     {
         nw = w-1;
         nh = h-1;
-        if( nw == 0 )
-            nw = myWidth-1;
-        if( nh == 0 )
-            nh = myHeight-1;
+        wrap( nw, nh );
         ret.push_back( cell( nw, nh ) );
         nw = w+1;
         nh = h-1;
-        if( nw = myWidth-1 )
-            nw = 0;
-        if( nh == 0 )
-            nh = myHeight-1;
+        wrap( nw, nh );
+        ret.push_back( cell( nw, nh ) );
+        nw = w-1;
+        nh = h+1;
+        wrap( nw, nh );
+        ret.push_back( cell( nw, nh ) );
+        nw = w+1;
+        nh = h+1;
+        wrap( nw, nh );
         ret.push_back( cell( nw, nh ) );
     }
     return ret;

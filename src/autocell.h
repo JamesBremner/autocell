@@ -92,5 +92,6 @@ private:
         int w, int h );
     std::vector< cell_t > neighboursNoWrap(
         int w, int h );
+    void wrap( int& w, int& h );
 };
 }
