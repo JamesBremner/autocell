@@ -72,24 +72,19 @@ public:
 
     /** choose a random cell
      * @param[in] chosen a set of cell indices that should not be chosen
-     * @param[out] chosen input plus index of chosen cells
+     * @param[out] chosen input plus index of chosen cell
      * @return shared pointer to chosen cell
      * 
      * Usage to choose 5 cells at random with no duplicates
      * <pre>
-    cell::cAutomaton A(3, 3);
-    std::set<int> chosen;
-    while( chosen.size() < 5 )
-        A.random( chosen );
-    for( int i : chosen )
+    cell::cAutomaton A(3, 3);       // 3 by 3 cell grid
+    std::set<int> chosen;           // set of chosen cell indices
+    srand (time(NULL));             // seed random no generator
+    while( chosen.size() < 5 )      // choose 5
+        A.random( chosen );         // choose
+    for( int i : chosen )           // display choices
         std::cout << i << " ";
     std::cout << "\n";
-    </pre>
-    *
-    * Consider seeding the random number generator
-    <pre>
-     #include <time.h>
-     srand (time(NULL));
     </pre>
     */
     cell_t random( 
