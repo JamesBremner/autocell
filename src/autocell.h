@@ -104,9 +104,9 @@ namespace cell
         /** neighbours
         @param[in] w zero-based width index of cell
         @param[in] h zero-based height index of cell
-        @return vector of shared pointers to cell's neighbours
+        @return vector of pointers to cell's neighbours
     */
-        std::vector<cell_t> neighbours(
+        std::vector<C*> neighbours(
             int w, int h);
 
         /** w, h co-ordinates of cell
@@ -127,9 +127,9 @@ namespace cell
         bool myfwrap;  ///< true if edges wrap around
         bool myfortho; ///< true if only orthogonal neighbours
 
-        std::vector<cell_t> neighboursWrap(
+        std::vector<C*> neighboursWrap(
             int w, int h);
-        std::vector<cell_t> neighboursNoWrap(
+        std::vector<C*> neighboursNoWrap(
             int w, int h);
         void wrap(int &w, int &h);
         bool inside(int w, int h);
@@ -166,7 +166,7 @@ namespace cell
         return myCell[index];
     }
     template <class C>
-    std::vector<cell_t> cAutomaton<C>::neighbours(
+    std::vector<C*> cAutomaton<C>::neighbours(
         int w, int h)
     {
         if (myfwrap)
@@ -203,10 +203,10 @@ namespace cell
         return ret;
     }
     template <class C>
-    std::vector<cell_t> cAutomaton<C>::neighboursWrap(
+    std::vector<C*> cAutomaton<C>::neighboursWrap(
         int w, int h)
     {
-        std::vector<cell_t> ret;
+        std::vector<C*> ret;
         int nw, nh;
         nw = w - 1;
         if (nw < 0)
@@ -250,10 +250,10 @@ namespace cell
         return ret;
     }
     template <class C>
-    std::vector<cell_t> cAutomaton<C>::neighboursNoWrap(
+    std::vector<C*> cAutomaton<C>::neighboursNoWrap(
         int w, int h)
     {
-        std::vector<cell_t> ret;
+        std::vector<C*> ret;
         int nw, nh;
         if (w != 0)
         {
