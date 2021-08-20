@@ -15,8 +15,49 @@ public:
             return '.';
     }
 };
+class cConway
+{
+    cell::cAutomaton<cCellLife> board1;
+    cell::cAutomaton<cCellLife> board2;
 
-int countLivingNeighbours(
+public:
+    /// construct board with w columns and h rows
+    cConway(int w, int h);
+
+    /// initilize with count living cells
+    void random(int count);
+
+    /// simulate for generationCount generationds
+    void live(int generationCount);
+
+private:
+    int countLivingNeighbours(
+        cell::cAutomaton<cCellLife> &board,
+        int c, int r);
+    void next(
+        cell::cAutomaton<cCellLife> &old,
+        cell::cAutomaton<cCellLife> &next);
+    void display(
+        cell::cAutomaton<cCellLife> &board);
+};
+
+cConway::cConway(int w, int h)
+    : board1(w, h), board2(w, h)
+{
+    board1.ortho(false);
+    board1.wrap(false);
+    board2.ortho(false);
+    board2.wrap(false);
+}
+void cConway::random(int count)
+{
+    std::set<int> chosen;
+    srand(time(0));
+    while (chosen.size() < count)
+        board1.random(chosen)->alive = true;
+}
+
+int cConway::countLivingNeighbours(
     cell::cAutomaton<cCellLife> &board,
     int c, int r)
 {
@@ -28,7 +69,8 @@ int countLivingNeighbours(
 }
 
 /// display * for living cells
-void display(cell::cAutomaton<cCellLife> &board)
+void cConway::display(
+    cell::cAutomaton<cCellLife> &board)
 {
     for (int r = 0; r < 10; r++)
     {
@@ -43,7 +85,7 @@ void display(cell::cAutomaton<cCellLife> &board)
 //     Any live cell with two or three live neighbours survives.
 // Any dead cell with three live neighbours becomes a live cell.
 // All other live cells die in the next generation. Similarly, all other dead cells stay dead.
-void next(
+void cConway::next(
     cell::cAutomaton<cCellLife> &old,
     cell::cAutomaton<cCellLife> &next)
 {
@@ -60,34 +102,32 @@ void next(
             if (c1->alive)
                 if (count == 2 || count == 3)
                     c2->alive = true;
-            else if (count == 3)
-                c2->alive = true;
+                else if (count == 3)
+                    c2->alive = true;
         }
+    }
+}
+void cConway::live(int generationCount)
+{
+    for (int g = 0; g < generationCount; g++)
+    {
+        display(board1);
+        next(board1, board2);
+        display(board2);
+        next(board2, board1);
     }
 }
 
 int main()
 {
-    // setup board with random cells alive
-    cell::cAutomaton<cCellLife> board(10, 10);
-    board.ortho(false);
-    board.wrap(false);
-    std::set<int> chosen;
-    srand(time(0));
-    while (chosen.size() < 20)
-        board.random(chosen)->alive = true;
+    // contruct 10 by 10 conway game of life
+    cConway conway( 10, 10 );
 
-    // alternate board
-    cell::cAutomaton<cCellLife> board2(10, 10);
-    board2.ortho(false);
-    board2.wrap(false);
+    // initialize with 20 living cells
+    conway.random( 20 );
 
-    for (int g = 0; g < 5; g++)
-    {
-        display(board);
-        next(board, board2);
-        display(board2);
-        next(board2, board);
-    }
+    // simulate 5 generations
+    conway.live( 5 );
 
+ 
 }
