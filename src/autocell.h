@@ -120,6 +120,13 @@ namespace cell
 
         std::string text();
 
+        void size(
+           int &w, int &h )
+           {
+               w = myWidth;
+               h = myHeight;
+           }
+
     private:
         std::vector< C* > myCell;
         int myWidth;
