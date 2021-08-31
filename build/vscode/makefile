@@ -5,7 +5,7 @@ test: ../../src/main.cpp
 	-o../../bin/test.exe  $(INCS)
      
 life: ../../src/life.cpp
-	g++ -g ../../src/life.cpp  ../../src/autocell.cpp \
+	g++ -g ../../src/life.cpp   ../../src/cConway.cpp ../../src/autocell.cpp \
 	-o../../bin/life.exe  $(INCS)
 
 guilife: ../../src/life.cpp

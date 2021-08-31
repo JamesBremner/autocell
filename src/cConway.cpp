@@ -6,7 +6,6 @@
 #endif
 #include "cConway.h"
 
-
 cConway::cConway(int w, int h)
     : board1(w, h), board2(w, h)
 {
@@ -23,6 +22,15 @@ void cConway::random(int count)
         board1.random(chosen)->alive = true;
 }
 
+void cConway::glider()
+{
+    board1.cell(10, 10)->alive = true;
+    board1.cell(11, 11)->alive = true;
+    board1.cell(9, 12)->alive = true;
+    board1.cell(10, 12)->alive = true;
+    board1.cell(11, 12)->alive = true;
+}
+
 int cConway::countLivingNeighbours(
     cell::cAutomaton<cCellLife> &board,
     int c, int r)
@@ -37,9 +45,11 @@ int cConway::countLivingNeighbours(
 void cConway::displayText(
     cell::cAutomaton<cCellLife> &board)
 {
-    for (int r = 0; r < 10; r++)
+    int w, h;
+    board.size(w, h);
+    for (int r = 0; r < h; r++)
     {
-        for (int c = 0; c < 10; c++)
+        for (int c = 0; c < w; c++)
         {
             std::cout << board.cell(c, r)->text();
         }
@@ -102,10 +112,12 @@ void cConway::next(
             int count = countLivingNeighbours(old, c, r);
 
             if (c1->alive)
+            {
                 if (count == 2 || count == 3)
                     c2->alive = true;
-                else if (count == 3)
-                    c2->alive = true;
+            }
+            else if (count == 3)
+                c2->alive = true;
         }
     }
 }

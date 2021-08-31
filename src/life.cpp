@@ -14,11 +14,13 @@ int main()
 
     // initialize with living cells
     conway.random(320);
+    //conway.glider();
 
 #ifndef GUI
 
     // simulate 5 generations
-    conway.live(5);
+    conway.live(1);
+
 
 #else
 

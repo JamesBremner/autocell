@@ -34,6 +34,14 @@ public:
     /// initilize with count living cells
     void random(int count);
 
+    void glider();
+
+    /** Grow the next generation
+     * @param[in] odd current board: true for board1, false for board2
+     * 
+     * Takes the current board and creates living calls in the other board
+     * using the rules
+     */
     void next(bool odd);
 
     /// simulate for generationCount generationds

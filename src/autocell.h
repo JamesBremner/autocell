@@ -116,7 +116,7 @@ namespace cell
     */
         void coords(
             int &w, int &h,
-            cell_t cell);
+            C* cell);
 
         std::string text();
 
@@ -318,7 +318,7 @@ namespace cell
     template <class C>
     void cAutomaton<C>::coords(
         int &w, int &h,
-        cell_t c)
+        C* c)
     {
         int id = c->ID();
         h = id / myWidth;
