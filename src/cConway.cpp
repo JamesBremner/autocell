@@ -31,6 +31,46 @@ void cConway::glider()
     board1.cell(11, 12)->alive = true;
 }
 
+void cConway::glidergun()
+{
+    board1.cell(1, 5)->alive = true;
+    board1.cell(2, 5)->alive = true;
+    board1.cell(1, 6)->alive = true;
+    board1.cell(2, 6)->alive = true;
+    board1.cell(11, 5)->alive = true;
+    board1.cell(11, 6)->alive = true;
+    board1.cell(11, 7)->alive = true;
+    board1.cell(12, 4)->alive = true;
+    board1.cell(12, 8)->alive = true;
+    board1.cell(13, 3)->alive = true;
+    board1.cell(13, 9)->alive = true;
+    board1.cell(14, 3)->alive = true;
+    board1.cell(14, 9)->alive = true;
+    board1.cell(15, 6)->alive = true;
+    board1.cell(16, 4)->alive = true;
+    board1.cell(16, 8)->alive = true;
+    board1.cell(17, 5)->alive = true;
+    board1.cell(17, 6)->alive = true;
+    board1.cell(17, 7)->alive = true;
+    board1.cell(18, 6)->alive = true;
+    board1.cell(21, 3)->alive = true;
+    board1.cell(21, 4)->alive = true;
+    board1.cell(21, 5)->alive = true;
+    board1.cell(22, 3)->alive = true;
+    board1.cell(22, 4)->alive = true;
+    board1.cell(22, 5)->alive = true;
+    board1.cell(23, 2)->alive = true;
+    board1.cell(23, 6)->alive = true;
+    board1.cell(25, 1)->alive = true;
+    board1.cell(25, 2)->alive = true;
+    board1.cell(25, 6)->alive = true;
+    board1.cell(25, 7)->alive = true;
+    board1.cell(35, 3)->alive = true;
+    board1.cell(35, 4)->alive = true;
+    board1.cell(36, 3)->alive = true;
+    board1.cell(36, 4)->alive = true;
+}
+
 int cConway::countLivingNeighbours(
     cell::cAutomaton<cCellLife> &board,
     int c, int r)

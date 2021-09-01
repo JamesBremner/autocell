@@ -31,10 +31,14 @@ public:
         myGui = &gui;
     }
 #endif
-    /// initilize with count living cells
+    /// initialize with count living cells
     void random(int count);
 
+    /// initialize with glider
     void glider();
+
+    /// initialize with glider gun
+    void glidergun();
 
     /** Grow the next generation
      * @param[in] odd current board: true for board1, false for board2
@@ -44,7 +48,7 @@ public:
      */
     void next(bool odd);
 
-    /// simulate for generationCount generationds
+    /// simulate for generationCount generations
     void live(int generationCount);
 
 #ifdef GUI

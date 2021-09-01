@@ -10,11 +10,12 @@
 int main()
 {
     // contruct conway game of life
-    cConway conway(40, 40);
+    cConway conway(100, 100);
 
     // initialize with living cells
-    conway.random(320);
+    //conway.random(320);
     //conway.glider();
+    conway.glidergun();
 
 #ifndef GUI
 
@@ -30,7 +31,7 @@ int main()
     form.text("Conway's Game of Life");
 
     // update display and move forward one generation
-    wex::timer *myTimer = new wex::timer(form, 1000);
+    wex::timer *myTimer = new wex::timer(form, 200);
     form.events().timer([&](int id)
                         { form.update(); });
     form.events().draw([&](PAINTSTRUCT &ps)
