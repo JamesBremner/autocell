@@ -4,7 +4,7 @@
 using namespace std;
 
 void neighbours(
-    cell::cAutomaton &A,
+    cell::cAutomaton<cell::cCell> &A,
     int cw, int ch)
 {
     int w, h;
@@ -20,7 +20,10 @@ void neighbours(
 
 int main()
 {
-    cell::cAutomaton A(3, 3);
+    /* for a simple test with no application specific behaviour by the cells
+        the base cCell class can be used to define the automaton
+    */
+    cell::cAutomaton<cell::cCell> A(3, 3);
     int cw = 0;
     int ch = 0;
     neighbours(A, cw, ch);

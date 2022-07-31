@@ -38,7 +38,7 @@ test: $(OBJtest)
 
 life: $(OBJlife)
 	g++ $(OPT) \
-	-o bin/test.exe $^  \
+	-o bin/life.exe $^  \
 	$(static_link_flags) $(LIBS)
 
 .PHONY: clean
