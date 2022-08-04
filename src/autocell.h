@@ -127,6 +127,14 @@ namespace cell
                h = myHeight;
            }
 
+        typename std::vector< C* >::iterator begin()
+        {
+            return myCell.begin();
+        }
+        typename std::vector< C* >::iterator end()
+        {
+            return myCell.end();
+        }
     private:
         std::vector< C* > myCell;
         int myWidth;

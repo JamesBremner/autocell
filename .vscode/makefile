@@ -25,6 +25,9 @@ OBJtest = \
 	$(ODIR)/main.o $(ODIR)/autocell.o
 OBJlife = \
 	$(ODIR)/life.o $(ODIR)/cConway.o $(ODIR)/autocell.o
+OBJbirds = \
+	$(ODIR)/birds.o $(ODIR)/autocell.o
+
 ### COMPILE
 
 $(ODIR)/%.o: %.cpp  
@@ -34,6 +37,11 @@ $(ODIR)/%.o: %.cpp
 test: $(OBJtest)
 	g++ $(OPT) \
 	-o bin/test.exe $^  \
+	$(static_link_flags) $(LIBS)
+
+birds: $(OBJbirds)
+	g++ $(OPT) \
+	-o bin/birds.exe $^  \
 	$(static_link_flags) $(LIBS)
 
 life: $(OBJlife)
