@@ -61,9 +61,9 @@ namespace cell
         }
 
         /** Configure behaviour of neighbours
-     * @param[in] f false: consider 8 cells as neighbours, ortho and diagonal
-     * @param[in] f true: consider 4 cells as neighbours, jut orthogonal
-     */
+         * @param[in] f false: consider 8 cells as neighbours, ortho and diagonal
+         * @param[in] f true: consider 4 cells as neighbours, jut orthogonal
+         */
         void ortho(bool f = true)
         {
             myfortho = f;
@@ -78,14 +78,14 @@ namespace cell
 
         Exception thrown if w or h out of bounds
     */
-        C* cell(
+        C *cell(
             int w, int h);
 
         /** choose a random cell
      * @param[in] chosen a set of cell indices that should not be chosen
      * @param[out] chosen input plus index of chosen cell
      * @return shared pointer to chosen cell
-     * 
+     *
      * Usage to choose 5 cells at random with no duplicates
      * <pre>
     cell::cAutomaton A(3, 3);       // 3 by 3 cell grid
@@ -98,7 +98,7 @@ namespace cell
     std::cout << "\n";
     </pre>
     */
-        C* random(
+        C *random(
             std::set<int> &chosen);
 
         /** neighbours
@@ -106,7 +106,7 @@ namespace cell
         @param[in] h zero-based height index of cell
         @return vector of pointers to cell's neighbours
     */
-        std::vector<C*> neighbours(
+        std::vector<C *> neighbours(
             int w, int h);
 
         /** w, h co-ordinates of cell
@@ -116,35 +116,37 @@ namespace cell
     */
         void coords(
             int &w, int &h,
-            C* cell);
+            C *cell);
 
         std::string text();
+        std::string text(int row);
 
         void size(
-           int &w, int &h )
-           {
-               w = myWidth;
-               h = myHeight;
-           }
+            int &w, int &h)
+        {
+            w = myWidth;
+            h = myHeight;
+        }
 
-        typename std::vector< C* >::iterator begin()
+        typename std::vector<C *>::iterator begin()
         {
             return myCell.begin();
         }
-        typename std::vector< C* >::iterator end()
+        typename std::vector<C *>::iterator end()
         {
             return myCell.end();
         }
+
     private:
-        std::vector< C* > myCell;
+        std::vector<C *> myCell;
         int myWidth;
         int myHeight;
         bool myfwrap;  ///< true if edges wrap around
         bool myfortho; ///< true if only orthogonal neighbours
 
-        std::vector<C*> neighboursWrap(
+        std::vector<C *> neighboursWrap(
             int w, int h);
-        std::vector<C*> neighboursNoWrap(
+        std::vector<C *> neighboursNoWrap(
             int w, int h);
         void wrap(int &w, int &h);
         bool inside(int w, int h);
@@ -157,11 +159,11 @@ namespace cell
         cCell::RestartID();
         for (int k = 0; k < myWidth * myHeight; k++)
         {
-            myCell.push_back( new C );
+            myCell.push_back(new C);
         }
     }
     template <class C>
-    C* cAutomaton<C>::cell(
+    C *cAutomaton<C>::cell(
         int w, int h)
     {
         if (0 > w || w >= myWidth || 0 > h || h >= myHeight)
@@ -170,7 +172,7 @@ namespace cell
         return myCell[myWidth * h + w];
     }
     template <class C>
-    C* cAutomaton<C>::random(std::set<int> &forbidden)
+    C *cAutomaton<C>::random(std::set<int> &forbidden)
     {
         int index;
         do
@@ -181,7 +183,7 @@ namespace cell
         return myCell[index];
     }
     template <class C>
-    std::vector<C*> cAutomaton<C>::neighbours(
+    std::vector<C *> cAutomaton<C>::neighbours(
         int w, int h)
     {
         if (myfwrap)
@@ -192,7 +194,7 @@ namespace cell
     template <class C>
     void cAutomaton<C>::wrap(int &w, int &h)
     {
-        //std::cout << "wrap " << w <<" "<< h;
+        // std::cout << "wrap " << w <<" "<< h;
         if (w < 0)
             w = myWidth - 1;
         if (h < 0)
@@ -201,7 +203,7 @@ namespace cell
             w = 0;
         if (h > myHeight - 1)
             h = 0;
-        //std::cout << " -> " << w <<" "<< h << "\n";
+        // std::cout << " -> " << w <<" "<< h << "\n";
     }
     template <class C>
     bool cAutomaton<C>::inside(int w, int h)
@@ -218,10 +220,10 @@ namespace cell
         return ret;
     }
     template <class C>
-    std::vector<C*> cAutomaton<C>::neighboursWrap(
+    std::vector<C *> cAutomaton<C>::neighboursWrap(
         int w, int h)
     {
-        std::vector<C*> ret;
+        std::vector<C *> ret;
         int nw, nh;
         nw = w - 1;
         if (nw < 0)
@@ -265,10 +267,10 @@ namespace cell
         return ret;
     }
     template <class C>
-    std::vector<C*> cAutomaton<C>::neighboursNoWrap(
+    std::vector<C *> cAutomaton<C>::neighboursNoWrap(
         int w, int h)
     {
-        std::vector<C*> ret;
+        std::vector<C *> ret;
         int nw, nh;
         if (w != 0)
         {
@@ -326,7 +328,7 @@ namespace cell
     template <class C>
     void cAutomaton<C>::coords(
         int &w, int &h,
-        C* c)
+        C *c)
     {
         int id = c->ID();
         h = id / myWidth;
@@ -337,11 +339,20 @@ namespace cell
     {
         std::stringstream s;
         int index = 0;
-        for( int r = 0; r < myHeight; r++ ) {
-            for( int c = 0; c < myWidth; c++ ) {
-         s << myCell[ index++ ]->text();
-            }
-            s << "\n";
+        for (int r = 0; r < myHeight; r++)
+        {
+            s << text( r ) << "\n";
+        }
+        return s.str();
+    }
+    template <class C>
+    std::string cAutomaton<C>::text(int row)
+    {
+        std::stringstream s;
+        int index = row * myWidth;
+        for (int c = 0; c < myWidth; c++)
+        {
+            s << myCell[index++]->text();
         }
         return s.str();
     }

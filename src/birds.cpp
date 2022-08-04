@@ -1,4 +1,5 @@
 #include <iostream>
+#include <wex.h>
 #include <autocell.h>
 #include <cBird.h>
 
@@ -174,17 +175,47 @@ void Display()
     std::cout << countBirds() << "\n";
 }
 
+void displayGUI(
+    PAINTSTRUCT &ps)
+{
+    wex::shapes S(ps);
+    for (int row = 0; row < 10; row++)
+        S.text(
+            Terrain.text(row),
+            {5, 20 * row});
+}
+
 int main()
 {
 
     generateRandom();
 
-    Display();
+    // construct top level application window
+    wex::gui &form = wex::maker::make();
+    form.move({50, 50, 400, 400});
+    form.text("Birds");
 
-    for (auto c : Terrain)
-    {
-        c->move();
-    }
-    std::cout << "move\n";
-    Display();
+    // update display and move forward one generation
+    wex::timer *myTimer = new wex::timer(form, 500);
+    form.events().timer(
+        [&](int id)
+        {
+            form.update();
+        });
+    form.events().draw(
+        [&](PAINTSTRUCT &ps)
+        {
+            for (auto c : Terrain)
+            {
+                c->move();
+            }
+            displayGUI(ps);
+            form.text("Birds " + std::to_string(countBirds()));
+        });
+
+    // show the application
+    form.show();
+
+    // Pass the control of the application to the windows message queue.
+    form.run();
 }
