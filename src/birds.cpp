@@ -48,11 +48,9 @@ void cCellBirds::move()
 
     int w, h;
     Terrain.coords(w, h, this);
-    // std::cout << id << " at " << w <<","<< h << "\n";
-    auto n = Terrain.neighbours(w, h);
     myBird->move(
         this,
-        n[rand() % n.size()]);
+        Terrain.neighbours(w, h));
 }
 
 bool cBird::MoveToEmpty(
@@ -70,8 +68,10 @@ bool cBird::MoveToEmpty(
 
 void cBird::move(
     cCellBirds *from,
-    cCellBirds *to)
+    const std::vector<cCellBirds*>& neighbours )
 {
+    cCellBirds *to = neighbours[rand() % neighbours.size()];
+
     if (MoveToEmpty(from, to))
         return;
 
@@ -97,8 +97,25 @@ void cBird::move(
 }
 void cEagle::move(
     cCellBirds *from,
-    cCellBirds *to)
+    const std::vector<cCellBirds*>& neighbours)
 {
+    // hunt for prey
+    cCellBirds *to = 0;
+    for( auto prey : neighbours )
+    {
+        if( prey->get() )
+            if( prey->get()->text() == 'b' ||
+            prey->get()->text() == 'f' )
+            {
+                to = prey;
+                break;
+            }
+    }
+    if( ! to ) {
+        // no prey in sight, move randomly
+        to = neighbours[rand() % neighbours.size()];
+    }
+
     if (MoveToEmpty(from, to))
         return;
     cBird *occupant = to->get();
@@ -124,8 +141,9 @@ void cEagle::move(
 
 void cFlock::move(
     cCellBirds *from,
-    cCellBirds *to)
+    const std::vector<cCellBirds*>& neighbours)
 {
+    cCellBirds *to = neighbours[rand() % neighbours.size()];
     if (MoveToEmpty(from, to))
         return;
 

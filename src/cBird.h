@@ -16,7 +16,7 @@ public:
     }
     virtual void move(
         cCellBirds *from,
-        cCellBirds *to);
+        const std::vector<cCellBirds*>& neighbours);
 
     virtual int countBirds() const
     {
@@ -45,7 +45,7 @@ public:
     }
     virtual void move(
         cCellBirds *from,
-        cCellBirds *to);
+        const std::vector<cCellBirds*>& neighbours);
 
     /// eagles do not count as birds
     virtual int countBirds() const
@@ -64,7 +64,7 @@ public:
     }
     virtual void move(
         cCellBirds *from,
-        cCellBirds *to);
+        const std::vector<cCellBirds*>& neighbours);
     virtual int countBirds() const
     {
         return myCount;
