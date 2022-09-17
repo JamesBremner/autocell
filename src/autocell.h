@@ -109,6 +109,13 @@ namespace cell
         std::vector<C *> neighbours(
             int w, int h);
 
+        std::vector<C *> neighbours( C* cell )
+        {
+            int w,h;
+            coords( w, h, cell );
+            return neighbours( w, h );
+        }
+
         /** w, h co-ordinates of cell
         @param[out] w width
         @param[out] h height
