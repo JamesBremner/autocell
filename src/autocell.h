@@ -69,7 +69,7 @@ namespace cell
             myfortho = f;
         }
 
-        /** Pointer to cell
+        /** Pointer to cell from location
         @param[in] w zero-based width index
         @param[in] h zero-based height index
         @return shared pointer to cell
@@ -77,9 +77,17 @@ namespace cell
         The pointer can be used to acess methods of specialized cell class.
 
         Exception thrown if w or h out of bounds
-    */
+        */
         C *cell(
             int w, int h);
+
+        /**
+         * @brief Pointer to cell from id
+         * 
+         * @param id 
+         * @return C* 
+         */
+        C * cell( int id );
 
         /** choose a random cell
      * @param[in] chosen a set of cell indices that should not be chosen
@@ -177,6 +185,14 @@ namespace cell
             throw std::runtime_error(
                 "cAutomaton cell out of bounds" + std::to_string(w) + " " + std::to_string(h));
         return myCell[myWidth * h + w];
+    }
+    template <class C>
+    C * cAutomaton<C>::cell( int id )
+    {
+        for( C * c : myCell )
+            if( c->ID() == id )
+                return c;
+        return 0;
     }
     template <class C>
     C *cAutomaton<C>::random(std::set<int> &forbidden)
