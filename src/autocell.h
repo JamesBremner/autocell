@@ -23,9 +23,9 @@ namespace cell
         {
             myLastID = -1;
         }
-        virtual char text()
+        virtual std::string text()
         {
-            return 'c';
+             return "c";
         }
 
     private:
@@ -62,7 +62,7 @@ namespace cell
 
         /** Configure behaviour of neighbours
          * @param[in] f false: consider 8 cells as neighbours, ortho and diagonal
-         * @param[in] f true: consider 4 cells as neighbours, jut orthogonal
+         * @param[in] f true: consider 4 cells as neighbours, just orthogonal
          */
         void ortho(bool f = true)
         {
@@ -81,13 +81,16 @@ namespace cell
         C *cell(
             int w, int h);
 
-        /**
-         * @brief Pointer to cell from id
-         * 
-         * @param id 
-         * @return C* 
-         */
-        C * cell( int id );
+        /// @brief cell pointer from index
+        /// @param id 
+        /// @return 
+        C *cell(int id);
+
+        /// @brief cell index from location
+        /// @param w 
+        /// @param h 
+        /// @return 
+        int index( int w, int h );
 
         /** choose a random cell
      * @param[in] chosen a set of cell indices that should not be chosen
@@ -117,12 +120,14 @@ namespace cell
         std::vector<C *> neighbours(
             int w, int h);
 
-        std::vector<C *> neighbours( C* cell )
+        std::vector<C *> neighbours(C *cell)
         {
-            int w,h;
-            coords( w, h, cell );
-            return neighbours( w, h );
+            int w, h;
+            coords(w, h, cell);
+            return neighbours(w, h);
         }
+
+        bool neighbours(C *c1, C *c2) const;
 
         /** w, h co-ordinates of cell
         @param[out] w width
@@ -131,7 +136,7 @@ namespace cell
     */
         void coords(
             int &w, int &h,
-            C *cell);
+            C *cell) const;
 
         std::string text();
         std::string text(int row);
@@ -187,12 +192,18 @@ namespace cell
         return myCell[myWidth * h + w];
     }
     template <class C>
-    C * cAutomaton<C>::cell( int id )
+    C *cAutomaton<C>::cell(int id)
     {
-        for( C * c : myCell )
-            if( c->ID() == id )
+        for (C *c : myCell)
+            if (c->ID() == id)
                 return c;
         return 0;
+    }
+
+    template <class C>
+    int cAutomaton<C>::index( int w, int h )
+    {
+        return cell(w,h)->ID();
     }
     template <class C>
     C *cAutomaton<C>::random(std::set<int> &forbidden)
@@ -213,6 +224,27 @@ namespace cell
             return neighboursWrap(w, h);
         else
             return neighboursNoWrap(w, h);
+    }
+    template <class C>
+    bool cAutomaton<C>::neighbours(C *c1, C *c2) const
+    {
+        if (myfwrap)
+            throw std::runtime_error(
+                "wrapping neigbour test not implemented");
+        int w1, h1, w2, h2;
+        coords(w1, h1, c1);
+        coords(w2, h2, c2);
+        if (c1 == c2)
+            return false;
+        if (myfortho)
+        {
+            return ((abs(w1 - w2) <= 1 && h1 == h2) || (w1 == w2 && abs(h1 - h2) < 1));
+        }
+        else
+        {
+            return (abs(w1 - w2) <= 1 && abs(h1 - h2) <= 1);
+        }
+        return false;
     }
     template <class C>
     void cAutomaton<C>::wrap(int &w, int &h)
@@ -351,7 +383,7 @@ namespace cell
     template <class C>
     void cAutomaton<C>::coords(
         int &w, int &h,
-        C *c)
+        C *c) const
     {
         int id = c->ID();
         h = id / myWidth;
@@ -364,7 +396,7 @@ namespace cell
         int index = 0;
         for (int r = 0; r < myHeight; r++)
         {
-            s << text( r ) << "\n";
+            s << text(r) << "\n";
         }
         return s.str();
     }
